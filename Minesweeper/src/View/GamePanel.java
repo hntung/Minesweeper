@@ -28,7 +28,7 @@ public class GamePanel extends JPanel{
 		
 		setLayout(new BorderLayout(20,20));
 		
-		add(p1 = new PanelNotification(), BorderLayout.NORTH);
+		add(p1 = new PanelNotification(this), BorderLayout.NORTH);
 		add(p2 = new PanelPlayer(this),BorderLayout.CENTER);
 		p2.setBorder(BorderFactory.createLoweredBevelBorder());
 		
