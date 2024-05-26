@@ -7,9 +7,9 @@ public class GameFrame extends JFrame {
 	
 	private GamePanel gamePanel;
 	private LoadData loadData;
-	public GameFrame() {
+	public GameFrame(int w, int h, int boom) {
 		loadData = new LoadData();
-		add(gamePanel = new GamePanel(9,9,10, this));
+		add(gamePanel = new GamePanel(w,h,boom, this));
 		pack();
 		setResizable(false);
 		setLocationRelativeTo(null);
@@ -18,7 +18,7 @@ public class GameFrame extends JFrame {
 	}
 	
 	public static void main(String[] args) {
-		new GameFrame();
+		new GameFrame(9, 9, 10);
 	}
 
 	public LoadData getLoadData() {
