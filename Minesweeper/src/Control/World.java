@@ -194,6 +194,42 @@ public class World {
 			
 		}
 	}
+	
+	public boolean clickDouble(int i, int j) {
+		boolean isCoBoom = false;
+		for(int x = i - 1; x <= i + 1; x++) {
+			for(int y = j - 1; y <= j + 1; y++) {
+				if(x >= 0 && x <= arrayMin.length - 1 && y >= 0 && y <= arrayMin[i].length - 1) {
+					if(!arrayFlag[x][y]) {
+						if(arrayMin[x][y] == -1) {
+							isCoBoom = true;
+							arrayButton[x][y].setNumber(11);
+							arrayButton[x][y].repaint();
+							arrayBoolean[x][y] = true;
+						} else if(!arrayBoolean[x][y]) {
+							arrayButton[x][y].setNumber(arrayMin[x][y]);
+							arrayButton[x][y].repaint();
+							arrayBoolean[x][y] = true;
+						}
+					}
+				}
+			}
+		}
+		
+		if(isCoBoom) {
+			for(int l = 0; l < arrayBoolean.length; l++) {
+				for(int k = 0; k < arrayBoolean[i].length; k++) {
+					if(arrayMin[l][k] == -1 && !arrayBoolean[l][k]) {
+						arrayButton[l][k].setNumber(10);
+						arrayButton[l][k].repaint();
+					}
+				}
+			}
+			return false;
+		}
+		
+		return true;
+	}
 	public ButtonPlay[][] getArrayButton() {
 		return arrayButton;
 	}
