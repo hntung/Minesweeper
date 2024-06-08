@@ -63,15 +63,18 @@ public class World {
 					}
 				}else {
 					arrayBoolean[i][j] = true;
-					if(checkWin()) {
-						isEnd = true;
-						fullTrue();
-						return false;
-					}
+					
 					int number = arrayMin[i][j];
 					if(number != -1) {
 						arrayButton[i][j].setNumber(number);
 						arrayButton[i][j].repaint();
+						
+						if(checkWin()) {
+							isEnd = true;
+							fullTrue();
+							return false;
+						}
+						
 						return true;
 					}
 				}
