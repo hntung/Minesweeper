@@ -18,6 +18,12 @@ public class LoadData {
 			listImage.put("noUse", img.getSubimage(0, 39, 16, 16));
 			listImage.put("smile", img.getSubimage(0, 55, 26, 26));
 			
+			listImage.put("smilePress", img.getSubimage(26, 55, 26, 26));
+			listImage.put("smilePressPlay", img.getSubimage(52, 55, 26, 26));
+			listImage.put("smileLose", img.getSubimage(78, 55, 26, 26));
+			listImage.put("smileWin", img.getSubimage(104, 55, 26, 26));
+			
+			listImage.put("smile", img.getSubimage(0, 55, 26, 26));
 			listImage.put("flag", img.getSubimage(16, 39, 16, 16));
 			listImage.put("boomRed", img.getSubimage(32, 39, 16, 16));
 			listImage.put("boomX", img.getSubimage(48, 39, 16, 16));
@@ -42,7 +48,7 @@ public class LoadData {
 			listImage.put("6", img.getSubimage(78, 0, 13, 23));
 			listImage.put("7", img.getSubimage(91, 0, 13, 23));
 			listImage.put("8", img.getSubimage(104, 0, 13, 23));
-			listImage.put("9", img.getSubimage(107, 0, 13, 23));
+			listImage.put("9", img.getSubimage(117, 0, 13, 23));
 			listImage.put("VoCung", img.getSubimage(120, 0, 13, 23));
 		} catch(IOException e) {
 			e.printStackTrace();

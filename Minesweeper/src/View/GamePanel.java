@@ -28,7 +28,7 @@ public class GamePanel extends JPanel implements MouseListener{
 		this.h = h;
 		this.w = w;
 		
-		world = new World(w,h,boom);
+		world = new World(w,h,boom,this);
 		
 		setLayout(new BorderLayout(20,20));
 		
@@ -45,12 +45,16 @@ public class GamePanel extends JPanel implements MouseListener{
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
+		getP1().getBt().setStage(ButtonSmile.wow);
+		getP1().getBt().repaint();
 		ButtonPlay[][] arrayButton = p2.getArrayButton();
 		for(int i = 0; i < arrayButton.length; i++) {
 			for(int j = 0; j< arrayButton[i].length; j++) {
 				if(e.getButton() == 1 && e.getSource() == arrayButton[i][j] && !world.getArrayFlag()[i][j]) {
 					if(!world.open(i,j)) {
 						if(world.isComplete()) {
+							getP1().getBt().setStage(ButtonSmile.lose);
+							getP1().getBt().repaint();
 							int option = JOptionPane.showConfirmDialog(this, "Game Over!\nDo you want play again?",
 									"Notification",JOptionPane.YES_NO_OPTION);
 							if(option == JOptionPane.YES_OPTION) {
@@ -60,6 +64,8 @@ public class GamePanel extends JPanel implements MouseListener{
 								world.fullTrue();
 							}	
 						}else if(world.isEnd()) {
+							getP1().getBt().setStage(ButtonSmile.win);
+							getP1().getBt().repaint();
 							int option = JOptionPane.showConfirmDialog(this, "You Win!\nDo you want play again?",
 									"Notification",JOptionPane.YES_NO_OPTION);
 							if(option == JOptionPane.YES_OPTION) {
@@ -73,6 +79,8 @@ public class GamePanel extends JPanel implements MouseListener{
 				}
 				if(e.getClickCount() == 2 && e.getSource() == arrayButton[i][j] && world.getArrayBoolean()[i][j]) {
 					if(!world.clickDouble(i, j)) {
+						getP1().getBt().setStage(ButtonSmile.lose);
+						getP1().getBt().repaint();
 						int option = JOptionPane.showConfirmDialog(this, "Game Over!\nDo you want play again?",
 								"Notification",JOptionPane.YES_NO_OPTION);
 						if(option == JOptionPane.YES_OPTION) {
@@ -90,7 +98,8 @@ public class GamePanel extends JPanel implements MouseListener{
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		
+		getP1().getBt().setStage(ButtonSmile.now);
+		getP1().getBt().repaint();
 	}
 	@Override
 	public void mouseEntered(MouseEvent e) {
@@ -128,6 +137,30 @@ public class GamePanel extends JPanel implements MouseListener{
 	}
 	public void setGameFrame(GameFrame gameFrame) {
 		this.gameFrame = gameFrame;
+	}
+
+	public int getBoom() {
+		return boom;
+	}
+
+	public void setBoom(int boom) {
+		this.boom = boom;
+	}
+
+	public PanelNotification getP1() {
+		return p1;
+	}
+
+	public void setP1(PanelNotification p1) {
+		this.p1 = p1;
+	}
+
+	public PanelPlayer getP2() {
+		return p2;
+	}
+
+	public void setP2(PanelPlayer p2) {
+		this.p2 = p2;
 	}
 	
 	

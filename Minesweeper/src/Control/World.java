@@ -2,11 +2,11 @@ package Control;
 
 import java.util.Random;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import View.ButtonPlay;
 import View.ButtonSmile;
+import View.GamePanel;
 
 public class World {
 	private Random rd;
@@ -19,9 +19,11 @@ public class World {
 	private ButtonSmile buttonSmile;
 	private JLabel lbTime, lbBoom;
 	private int boom;
-	public World(int w, int h, int boom) {
+	private int Flag;
+	private GamePanel game;
+	public World(int w, int h, int boom, GamePanel game) {
 		this.boom = boom;
-		
+		this.game = game;
 		arrayButton = new ButtonPlay[w][h];
 		arrayFlag = new boolean[w][h];
 		arrayMin = new int[w][h];
@@ -50,7 +52,7 @@ public class World {
 					arrayButton[i][j].repaint();
 					if(checkWin()) {
 						isEnd = true;
-						fullTrue();
+
 						return false;
 					}
 					for(int x = i - 1; x <= i + 1; x++) {
@@ -64,16 +66,15 @@ public class World {
 						}
 					}
 				}else {
-					arrayBoolean[i][j] = true;
 					
 					int number = arrayMin[i][j];
 					if(number != -1) {
+						arrayBoolean[i][j] = true;
 						arrayButton[i][j].setNumber(number);
 						arrayButton[i][j].repaint();
 						
 						if(checkWin()) {
 							isEnd = true;
-							fullTrue();
 							return false;
 						}
 						
@@ -90,6 +91,10 @@ public class World {
 				openAllBoomBoxes();
 				return false;
 			}else {
+				if(checkWin()) {
+					isEnd = true;
+					return false;
+				}
 				return true;
 			}
 		}else {
@@ -183,13 +188,17 @@ public class World {
 	public void camCo(int i, int j) {
 		if(!arrayBoolean[i][j]) {
 			if(arrayFlag[i][j]) {
+				Flag--;
 				arrayFlag[i][j] = false;
 				arrayButton[i][j].setNumber(-1);
 				arrayButton[i][j].repaint();
-			}else {
+				game.getP1().updateBoom();
+			}else if(Flag < boom){
+				Flag++;
 				arrayFlag[i][j] = true;
 				arrayButton[i][j].setNumber(9);
 				arrayButton[i][j].repaint();
+				game.getP1().updateBoom();
 			}
 			
 		}
@@ -284,6 +293,12 @@ public class World {
 	}
 	public void setArrayFlag(boolean[][] arrayFlag) {
 		this.arrayFlag = arrayFlag;
+	}
+	public int getFlag() {
+		return Flag;
+	}
+	public void setFlag(int flag) {
+		Flag = flag;
 	}
 	
 	

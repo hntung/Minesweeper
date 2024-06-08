@@ -21,4 +21,21 @@ public class LabelNumber extends JLabel {
 		g.drawImage(p.getGame().getGameFrame().getLoadData().getListImage().get(String.valueOf(number.charAt(2))), 52, 0,26,46, null);
 
 	}
+
+	public PanelNotification getP() {
+		return p;
+	}
+
+	public void setP(PanelNotification p) {
+		this.p = p;
+	}
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+	
 }
