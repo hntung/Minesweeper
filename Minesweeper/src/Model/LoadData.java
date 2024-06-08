@@ -18,6 +18,11 @@ public class LoadData {
 			listImage.put("noUse", img.getSubimage(0, 39, 16, 16));
 			listImage.put("smile", img.getSubimage(0, 55, 26, 26));
 			
+			listImage.put("flag", img.getSubimage(16, 39, 16, 16));
+			listImage.put("boomRed", img.getSubimage(32, 39, 16, 16));
+			listImage.put("boomX", img.getSubimage(48, 39, 16, 16));
+			listImage.put("boom", img.getSubimage(64, 39, 16, 16));
+
 			listImage.put("b0", img.getSubimage(0, 23, 16, 16));
 			listImage.put("b1", img.getSubimage(16, 23, 16, 16));
 			listImage.put("b2", img.getSubimage(32, 23, 16, 16));

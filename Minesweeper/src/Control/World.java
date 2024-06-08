@@ -13,6 +13,7 @@ public class World {
 	private ButtonPlay[][] arrayButton;
 	private int[][] arrayMin;
 	private boolean[][] arrayBoolean;
+	private boolean[][] arrayFlag;
 	private boolean isComplete;
 	private boolean isEnd;
 	private ButtonSmile buttonSmile;
@@ -22,6 +23,7 @@ public class World {
 		this.boom = boom;
 		
 		arrayButton = new ButtonPlay[w][h];
+		arrayFlag = new boolean[w][h];
 		arrayMin = new int[w][h];
 		arrayBoolean = new boolean[w][h];
 		rd = new Random();
@@ -81,7 +83,11 @@ public class World {
 			}
 			
 			if(arrayMin[i][j] == -1) {		
+				arrayButton[i][j].setNumber(12);
+				arrayButton[i][j].repaint();
 				isComplete = true;
+				
+				openAllBoomBoxes();
 				return false;
 			}else {
 				return true;
@@ -162,6 +168,32 @@ public class World {
 				}
 			}
 	}
+	
+	public void openAllBoomBoxes() {
+		for(int i = 0; i < arrayBoolean.length; i++) {
+			for(int j = 0; j < arrayBoolean[i].length; j++) {
+				if(arrayMin[i][j] == -1 && !arrayBoolean[i][j]) {
+					arrayButton[i][j].setNumber(10);
+					arrayButton[i][j].repaint();
+				}
+			}
+		}
+	}
+	
+	public void camCo(int i, int j) {
+		if(!arrayBoolean[i][j]) {
+			if(arrayFlag[i][j]) {
+				arrayFlag[i][j] = false;
+				arrayButton[i][j].setNumber(-1);
+				arrayButton[i][j].repaint();
+			}else {
+				arrayFlag[i][j] = true;
+				arrayButton[i][j].setNumber(9);
+				arrayButton[i][j].repaint();
+			}
+			
+		}
+	}
 	public ButtonPlay[][] getArrayButton() {
 		return arrayButton;
 	}
@@ -210,6 +242,12 @@ public class World {
 	}
 	public void setEnd(boolean isEnd) {
 		this.isEnd = isEnd;
+	}
+	public boolean[][] getArrayFlag() {
+		return arrayFlag;
+	}
+	public void setArrayFlag(boolean[][] arrayFlag) {
+		this.arrayFlag = arrayFlag;
 	}
 	
 	
