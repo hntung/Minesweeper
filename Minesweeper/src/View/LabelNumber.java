@@ -12,6 +12,8 @@ public class LabelNumber extends JLabel {
 	private static final long serialVersionUID = 1L;
 	private PanelNotification p;
 	private String number;
+
+
 	public LabelNumber(PanelNotification p, String number) {
 		this.p = p;
 		this.number = number;
@@ -41,5 +43,7 @@ public class LabelNumber extends JLabel {
 	public void setNumber(String number) {
 		this.number = number;
 	}
+
+
 	
 }

@@ -22,6 +22,7 @@ public class GameFrame extends JFrame {
 	private JMenuBar mnb;
 	private JMenu menu;
 	private JMenuItem basic, nomal, hard, newGame, exit;
+	private int totalTime;
 	public GameFrame(int w, int h, int boom) {
 		loadData = new LoadData();
 		setJMenuBar(mnb = new JMenuBar());
@@ -35,20 +36,24 @@ public class GameFrame extends JFrame {
 		menu.addSeparator();
 		menu.add(exit = new JMenuItem("Exit"));
 
-		if (w == 8) {
+		if (boom == 10) {
 			basic.setIcon(new ImageIcon(loadData.getListImage().get("DauTich")));
-		} else if (w == 16) {
+			setTotalTime(150);
+		} else if (boom == 40) {
 			nomal.setIcon(new ImageIcon(loadData.getListImage().get("DauTich")));
-		} else {
+			setTotalTime(400);
+		} else{
 			hard.setIcon(new ImageIcon(loadData.getListImage().get("DauTich")));
+			setTotalTime(999);
 		}
-
+//		totalTime = 60;
 		basic.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-				new GameFrame(8, 8, 10);
+
+				new GameFrame(9, 9, 10);
 			}
 		});
 
@@ -57,6 +62,7 @@ public class GameFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
+
 				new GameFrame(16, 16, 40);
 			}
 		});
@@ -66,6 +72,7 @@ public class GameFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
+
 				new GameFrame(16, 30, 99);
 			}
 		});
@@ -112,6 +119,14 @@ public class GameFrame extends JFrame {
 
 	public void setGamePanel(GamePanel gamePanel) {
 		this.gamePanel = gamePanel;
+	}
+
+	public int getTotalTime() {
+		return totalTime;
+	}
+
+	public void setTotalTime(int totalTime) {
+		this.totalTime = totalTime;
 	}
 	
 }
