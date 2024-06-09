@@ -112,6 +112,10 @@ public class PanelNotification extends JPanel {
 	    executorService = Executors.newScheduledThreadPool(1);
 	    executorService.scheduleAtFixedRate(() -> {
 	        SwingUtilities.invokeLater(() -> {
+	        	if(game.getWorld().isEnd() || game.getWorld().isComplete()) {
+	        		executorService.shutdown();
+	        	}
+	        	
 	            timeLeft--;
 	            String cTime = String.valueOf(timeLeft);
 	            if(cTime.length() == 1) {
