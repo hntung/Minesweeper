@@ -1,20 +1,22 @@
 package View;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JLabel;
+
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import Control.World;
 
 public class GamePanel extends JPanel implements MouseListener{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private PanelNotification p1;
 	private PanelPlayer p2;
 	

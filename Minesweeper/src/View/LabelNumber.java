@@ -6,6 +6,10 @@ import java.awt.Graphics;
 import javax.swing.JLabel;
 
 public class LabelNumber extends JLabel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private PanelNotification p;
 	private String number;
 	public LabelNumber(PanelNotification p, String number) {

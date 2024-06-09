@@ -6,6 +6,10 @@ import javax.swing.JButton;
 
 import java.awt.Dimension;
 public class ButtonSmile extends JButton {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static final int win = 0;
 	public static final int lose = 1;
 	public static final int press = 2;

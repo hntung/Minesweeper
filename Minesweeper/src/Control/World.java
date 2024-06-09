@@ -88,7 +88,8 @@ public class World {
 				arrayButton[i][j].repaint();
 				isComplete = true;
 				
-				openAllBoomBoxes();
+				
+				openAllBoomBoxes(i, j);
 				return false;
 			}else {
 				if(checkWin()) {
@@ -174,12 +175,14 @@ public class World {
 			}
 	}
 	
-	public void openAllBoomBoxes() {
-		for(int i = 0; i < arrayBoolean.length; i++) {
-			for(int j = 0; j < arrayBoolean[i].length; j++) {
-				if(arrayMin[i][j] == -1 && !arrayBoolean[i][j]) {
-					arrayButton[i][j].setNumber(10);
-					arrayButton[i][j].repaint();
+	public void openAllBoomBoxes(int i, int j) {
+		for(int i2 = 0;i2 < arrayBoolean.length; i2++){
+			for(int j2 = 0;j2 < arrayBoolean[i].length; j2++){
+				if(arrayMin[i2][j2] == -1 && !arrayBoolean[i2][j2]) {
+					if(i2 != i || j2 != j) {
+						arrayButton[i2][j2].setNumber(10);
+						arrayButton[i2][j2].repaint();
+					}
 				}
 			}
 		}
@@ -216,9 +219,13 @@ public class World {
 							arrayButton[x][y].repaint();
 							arrayBoolean[x][y] = true;
 						} else if(!arrayBoolean[x][y]) {
-							arrayButton[x][y].setNumber(arrayMin[x][y]);
-							arrayButton[x][y].repaint();
-							arrayBoolean[x][y] = true;
+							if(arrayMin[x][y] == 0) {
+								open(x,y);
+							}else{
+								arrayButton[x][y].setNumber(arrayMin[x][y]);
+								arrayButton[x][y].repaint();
+								arrayBoolean[x][y] = true;								
+							}
 						}
 					}
 				}
