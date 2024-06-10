@@ -56,7 +56,7 @@ public class GameFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-
+				dispose();
 				new GameFrame(9, 9, 10);
 			}
 		});
@@ -66,7 +66,7 @@ public class GameFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-
+				dispose();
 				new GameFrame(16, 16, 40);
 			}
 		});
@@ -76,7 +76,7 @@ public class GameFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-
+				dispose();
 				new GameFrame(16, 30, 99);
 			}
 		});
@@ -86,6 +86,7 @@ public class GameFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
+				dispose();
 				new GameFrame(w, h, boom);
 			}
 		});
