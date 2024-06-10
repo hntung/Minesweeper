@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
 
@@ -54,7 +56,6 @@ public class GamePanel extends JPanel implements MouseListener{
 			for(int j = 0; j< arrayButton[i].length; j++) {
 				if(e.getButton() == 1 && e.getSource() == arrayButton[i][j] && !world.getArrayFlag()[i][j]) {
 					if(!world.open(i,j)) {
-//						getP1()
 						if(world.isComplete()) {
 							getP1().getBt().setStage(ButtonSmile.lose);
 							getP1().getBt().repaint();

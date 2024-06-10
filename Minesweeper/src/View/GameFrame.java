@@ -2,12 +2,15 @@ package View;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 import Model.LoadData;
 public class GameFrame extends JFrame {
@@ -27,7 +30,7 @@ public class GameFrame extends JFrame {
 		loadData = new LoadData();
 		setJMenuBar(mnb = new JMenuBar());
 		mnb.add(menu = new JMenu("Game"));
-
+		
 		menu.add(newGame = new JMenuItem("New game"));
 		menu.addSeparator();
 		menu.add(basic = new JMenuItem("Basic"));
@@ -47,6 +50,7 @@ public class GameFrame extends JFrame {
 			setTotalTime(999);
 		}
 //		totalTime = 60;
+		
 		basic.addActionListener(new ActionListener() {
 
 			@Override
@@ -90,14 +94,20 @@ public class GameFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				confirmExit();
 			}
 		});
 		add(gamePanel = new GamePanel(w,h,boom, this));
 		pack();
 		setResizable(false);
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                confirmExit();
+            }
+        });
 		setVisible(true);
 	}
 	
@@ -105,6 +115,19 @@ public class GameFrame extends JFrame {
 		new GameFrame(9, 9, 10);
 	}
 
+	private void confirmExit() {
+        int confirmed = JOptionPane.showConfirmDialog(
+            this,
+            "Bạn có chắc chắn muốn thoát không?",
+            "Xác nhận thoát",
+            JOptionPane.YES_NO_OPTION
+        );
+
+        if (confirmed == JOptionPane.YES_OPTION) {
+            dispose();
+            System.exit(confirmed);
+        }
+    }
 	public LoadData getLoadData() {
 		return loadData;
 	}
