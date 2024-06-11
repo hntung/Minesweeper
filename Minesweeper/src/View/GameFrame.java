@@ -21,14 +21,15 @@ public class GameFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private GamePanel gamePanel;
 	private LoadData loadData;
-
 	private JMenuBar mnb;
 	private JMenu menu;
 	private JMenuItem basic, nomal, hard, newGame, exit;
-	private int totalTime;
+	private static int totalTime;
 	public GameFrame(int w, int h, int boom) {
 		loadData = new LoadData();
+
 		setJMenuBar(mnb = new JMenuBar());
+
 		mnb.add(menu = new JMenu("Game"));
 		
 		menu.add(newGame = new JMenuItem("New game"));
@@ -57,6 +58,7 @@ public class GameFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 				dispose();
+				System.exit(0);
 				new GameFrame(9, 9, 10);
 			}
 		});
@@ -145,7 +147,7 @@ public class GameFrame extends JFrame {
 		this.gamePanel = gamePanel;
 	}
 
-	public int getTotalTime() {
+	public static int getTotalTime() {
 		return totalTime;
 	}
 

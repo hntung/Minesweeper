@@ -28,7 +28,7 @@ public class MainBoard extends JFrame{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MainBoard window = new MainBoard("defaultUsername");
+					MainBoard window = new MainBoard();
 					window.frmMinesweeper.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,8 +40,8 @@ public class MainBoard extends JFrame{
 	/**
 	 * Create the application.
 	 */
-	public MainBoard(String username) {
-		this.username = username;
+	public MainBoard() {
+		this.username = DangNhap.getUsername();
 		initialize();
 	}
 
@@ -74,6 +74,12 @@ public class MainBoard extends JFrame{
         frmMinesweeper.getContentPane().add(lblWelcome);
 		
 		JButton btnNewGame = new JButton("Game mới");
+		btnNewGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GameFrame game = new GameFrame(9,9,10);
+				
+			}
+		});
 		btnNewGame.setBackground(new Color(0, 128, 128));
 		btnNewGame.setForeground(new Color(0, 0, 128));
 		btnNewGame.setFont(new Font("Segoe UI", Font.BOLD, 22));
@@ -118,4 +124,5 @@ public class MainBoard extends JFrame{
             frmMinesweeper.dispose();
         }
     }
+	
 }

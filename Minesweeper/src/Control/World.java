@@ -1,14 +1,29 @@
 package Control;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.util.Random;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import View.ButtonPlay;
 import View.ButtonSmile;
+import View.DangNhap;
+import View.GameFrame;
 import View.GamePanel;
+import View.PanelNotification;
 
 public class World {
+	//ConnectDB
+	String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+    String dbURL = "jdbc:sqlserver://LAPTOP-VF2P0PFO\\MSSQL2022:1433;databaseName=Minesweeper;"
+            + "encrypt=false;trustServerCertificate=true;"
+            + "hostNameInCertificate=LAPTOP-VF2P0PFO\\MSSQL2022";
+    String user = "sa";
+    String pass = "123";
+    //
 	private Random rd;
 	private ButtonPlay[][] arrayButton;
 	private int[][] arrayMin;
@@ -21,6 +36,10 @@ public class World {
 	private int boom;
 	private int Flag;
 	private GamePanel game;
+	private int levelID;
+	private int timeComplete;
+	private String username = DangNhap.getUsername();
+
 	public World(int w, int h, int boom, GamePanel game) {
 		this.boom = boom;
 		this.game = game;
@@ -40,44 +59,36 @@ public class World {
 			System.out.println();
 		}
 	}
-	public boolean open(int i, int j) {
-		
+	public boolean open(int i, int j) {	
 		if(!isComplete && !isEnd) {
-			if(!arrayBoolean[i][j]) {
-				
-				if(arrayMin[i][j] == 0) {
-					
+			if(!arrayBoolean[i][j]) {		
+				if(arrayMin[i][j] == 0) {	
 					arrayBoolean[i][j] = true;
 					arrayButton[i][j].setNumber(0);
 					arrayButton[i][j].repaint();
 					if(checkWin()) {
 						isEnd = true;
-
 						return false;
 					}
 					for(int x = i - 1; x <= i + 1; x++) {
 						for(int y = j - 1; y <= j + 1; y++) {
 							if(x >= 0 && x <= arrayMin.length - 1 && y >= 0 && y <= arrayMin[i].length - 1) {
 								if(!arrayBoolean[x][y]) {
-									open(x,y);
-									
+									open(x,y);				
 								}
 							}
 						}
 					}
-				}else {
-					
+				}else {	
 					int number = arrayMin[i][j];
 					if(number != -1) {
 						arrayBoolean[i][j] = true;
 						arrayButton[i][j].setNumber(number);
 						arrayButton[i][j].repaint();
-						
 						if(checkWin()) {
 							isEnd = true;
 							return false;
 						}
-						
 						return true;
 					}
 				}
@@ -86,9 +97,7 @@ public class World {
 			if(arrayMin[i][j] == -1) {		
 				arrayButton[i][j].setNumber(12);
 				arrayButton[i][j].repaint();
-				isComplete = true;
-				
-				
+				isComplete = true;		
 				openAllBoomBoxes(i, j);
 				return false;
 			}else {
@@ -113,11 +122,39 @@ public class World {
 			}
 		}
 		if(count == boom) {
+			timeComplete =  GameFrame.getTotalTime() ;
+			System.out.println(timeComplete);
 			return true;
 		}else {
 			return false;
 		}
 	}
+	
+//	public boolean saveResult() {
+//        try {
+//            Class.forName(driver);
+//            Connection conn = DriverManager.getConnection(dbURL, user, pass);
+//            String sql = "INSERT INTO bangxephang (levelid, username, timeComplete) VALUES (?, ?, ?)";
+//            PreparedStatement ps = conn.prepareStatement(sql);
+//            ps.setInt(1, levelID);
+//            ps.setString(2, username);
+//            ps.setInt(3, timeComplete);
+//            int rowsInserted = ps.executeUpdate();
+//            ps.close();
+//            conn.close();
+//            if (rowsInserted > 0) {
+//                JOptionPane.showMessageDialog(null, "Lưu kết quả thành công!");
+//                return true;
+//            } else {
+//                JOptionPane.showMessageDialog(null, "Không thể lưu kết quả.", "Lỗi", JOptionPane.ERROR_MESSAGE);
+//                return false;
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            JOptionPane.showMessageDialog(null, "Lỗi khi lưu kết quả: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+//            return false;
+//        }
+//    }
 	public void fillNumber() {
 		for(int i = 0;i < arrayMin.length; i++){
 			for(int j = 0;j < arrayMin[i].length; j++){

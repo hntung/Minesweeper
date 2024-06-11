@@ -24,6 +24,7 @@ public class PanelNotification extends JPanel {
 	private JLabel lbTime, lbBoom;
 	private ButtonSmile bt;
 	private int timeLeft;
+	private int cTimeLeft;
     private ScheduledExecutorService executorService;
 	public PanelNotification(GamePanel game) {
 		this.game = game;
@@ -111,29 +112,33 @@ public class PanelNotification extends JPanel {
 	private void startTimer() {
 	    executorService = Executors.newScheduledThreadPool(1);
 	    executorService.scheduleAtFixedRate(() -> {
-	        SwingUtilities.invokeLater(() -> {
-	        	if(game.getWorld().isEnd() || game.getWorld().isComplete()) {
-	        		executorService.shutdown();
-	        	}
-	        	
-	            timeLeft--;
-	            String cTime = String.valueOf(timeLeft);
-	            if(cTime.length() == 1) {
-	    			((LabelNumber) lbTime).setNumber("00" + cTime);
-	    		} else if(cTime.length() == 2) {
-	    			((LabelNumber) lbTime).setNumber("0" + cTime);
-	    		} else {
-	    			((LabelNumber) lbTime).setNumber(cTime);
-	    		}
-	            lbTime.repaint();
-	            if (timeLeft <= 0) {
-	                executorService.shutdown();
-	                JOptionPane.showMessageDialog(this, "Time's up!", "Notification", JOptionPane.INFORMATION_MESSAGE);
-	                
+	        SwingUtilities.invokeLater(new Runnable() {
+	            @Override
+	            public void run() {
+	                if (game.getWorld().isEnd() || game.getWorld().isComplete()) {
+	                    executorService.shutdown();
+	                    setcTimeLeft(timeLeft);
+	                } else {
+	                    timeLeft--;
+	                    String cTime = String.valueOf(timeLeft);
+	                    if (cTime.length() == 1) {
+	                        ((LabelNumber) lbTime).setNumber("00" + cTime);
+	                    } else if (cTime.length() == 2) {
+	                        ((LabelNumber) lbTime).setNumber("0" + cTime);
+	                    } else {
+	                        ((LabelNumber) lbTime).setNumber(cTime);
+	                    }
+	                    lbTime.repaint();
+	                    if (timeLeft <= 0) {
+	                        executorService.shutdown();
+	                        JOptionPane.showMessageDialog(game, "Time's up!", "Notification", JOptionPane.INFORMATION_MESSAGE);
+	                    }
+	                }
 	            }
 	        });
 	    }, 1, 1, TimeUnit.SECONDS);
 	}
+
 	public ButtonSmile getBt() {
 		return bt;
 	}
@@ -141,5 +146,16 @@ public class PanelNotification extends JPanel {
 	public void setBt(ButtonSmile bt) {
 		this.bt = bt;
 	}
+
+
+	public int getcTimeLeft() {
+        return this.cTimeLeft;
+    }
+
+    // Setter for cTimeLeft
+    public void setcTimeLeft(int cTimeLeft) {
+        this.cTimeLeft = cTimeLeft;
+    }
+	
 	
 }

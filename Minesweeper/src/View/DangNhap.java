@@ -13,6 +13,8 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 
 public class DangNhap extends JFrame {
@@ -20,6 +22,7 @@ public class DangNhap extends JFrame {
     private JFrame frame;
     private JTextField txtUsername;
     private JPasswordField txtPasswrod;
+    private static String username;
     // Database connection details
     String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     String dbURL = "jdbc:sqlserver://LAPTOP-VF2P0PFO\\MSSQL2022:1433;databaseName=Minesweeper;"
@@ -59,6 +62,12 @@ public class DangNhap extends JFrame {
         frame.setResizable(false);
         frame.setBounds(100, 100, 413, 279);
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+            	confirmExit();
+            }
+        });
         frame.getContentPane().setLayout(null);
         frame.setVisible(true);
 
@@ -98,10 +107,10 @@ public class DangNhap extends JFrame {
                         JOptionPane.showMessageDialog(frame, "Tài khoản và mật khẩu không được để trống");
                         return;
                     } else if (rs.next()) {
-                    	String username = txtUsername.getText();
+                    	username = txtUsername.getText();
                         JOptionPane.showMessageDialog(frame, "Đăng nhập thành công");
-                        MainBoard gb = new MainBoard(username);
-//                        gb.setVisible(true);
+                        MainBoard gb = new MainBoard();
+
                         frame.dispose();
                     } else {
                         JOptionPane.showMessageDialog(frame, "Đăng nhập thất bại");
@@ -137,6 +146,14 @@ public class DangNhap extends JFrame {
         }
     }
 
+    public static  String getUsername() {
+        return username;
+    }
 
+    public static void setUsername(String username) {
+        DangNhap.username = username;
+    }
+
+    
     
 }
