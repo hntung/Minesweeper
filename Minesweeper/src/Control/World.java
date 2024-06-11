@@ -14,7 +14,7 @@ import View.DangNhap;
 import View.GameFrame;
 import View.GamePanel;
 import View.PanelNotification;
-
+import Model.CalculateCompleteTime;
 public class World {
 	//ConnectDB
 	String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
