@@ -58,7 +58,7 @@ public class GameFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 				dispose();
-				System.exit(0);
+		
 				new GameFrame(9, 9, 10);
 			}
 		});
