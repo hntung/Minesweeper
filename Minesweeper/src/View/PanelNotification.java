@@ -24,11 +24,13 @@ public class PanelNotification extends JPanel {
 	private JLabel lbTime, lbBoom;
 	private ButtonSmile bt;
 	private int timeLeft;
-	private int cTimeLeft;
+	private int totalTime;
+
     private ScheduledExecutorService executorService;
 	public PanelNotification(GamePanel game) {
 		this.game = game;
-		this.timeLeft = game.getGameFrame().getTotalTime();
+		this.totalTime = game.getGameFrame().getTotalTime();
+		this.timeLeft = this.totalTime;
 		lbTime = game.getWorld().getLbTime();
 		lbBoom = game.getWorld().getLbTime();
 		bt = game.getWorld().getButtonSmile();
@@ -116,8 +118,8 @@ public class PanelNotification extends JPanel {
 	            @Override
 	            public void run() {
 	                if (game.getWorld().isEnd() || game.getWorld().isComplete()) {
+
 	                    executorService.shutdown();
-	                    setcTimeLeft(timeLeft);
 	                } else {
 	                    timeLeft--;
 	                    String cTime = String.valueOf(timeLeft);
@@ -131,6 +133,7 @@ public class PanelNotification extends JPanel {
 	                    lbTime.repaint();
 	                    if (timeLeft <= 0) {
 	                        executorService.shutdown();
+	                        game.getWorld().isComplete();
 	                        JOptionPane.showMessageDialog(game, "Time's up!", "Notification", JOptionPane.INFORMATION_MESSAGE);
 	                    }
 	                }
@@ -138,6 +141,7 @@ public class PanelNotification extends JPanel {
 	        });
 	    }, 1, 1, TimeUnit.SECONDS);
 	}
+	
 
 	public ButtonSmile getBt() {
 		return bt;
@@ -148,14 +152,13 @@ public class PanelNotification extends JPanel {
 	}
 
 
-	public int getcTimeLeft() {
-        return this.cTimeLeft;
+    public int timeComplete() {
+    	return totalTime - timeLeft;
     }
 
-    // Setter for cTimeLeft
-    public void setcTimeLeft(int cTimeLeft) {
-        this.cTimeLeft = cTimeLeft;
-    }
+
+    
+
 	
 	
 }

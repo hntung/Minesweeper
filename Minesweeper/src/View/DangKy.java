@@ -5,6 +5,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import Config.DatabaseConfig;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -17,32 +20,12 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class DangKy extends JFrame {
-    String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    String dbURL = "jdbc:sqlserver://LAPTOP-VF2P0PFO\\MSSQL2022:1433;databaseName=Minesweeper;"
-            + "encrypt=false;trustServerCertificate=true;"
-            + "hostNameInCertificate=LAPTOP-VF2P0PFO\\MSSQL2022";
-    String user = "sa";
-    String pass = "123";
+    
     private JFrame frame;
     private JTextField txtUsername;
     private JPasswordField txtPassword;
     private JPasswordField txtConfirmPassword;
 
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    DangKy window = new DangKy();
-                    window.frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
 
     /**
      * Create the application.
@@ -100,8 +83,8 @@ public class DangKy extends JFrame {
                     return;
                 }
                 try {
-                    Class.forName(driver);
-                    Connection conn = DriverManager.getConnection(dbURL, user, pass);
+                	Class.forName(DatabaseConfig.DRIVER);
+                    Connection conn = DriverManager.getConnection(DatabaseConfig.DB_URL, DatabaseConfig.USER, DatabaseConfig.PASS);
 
                     String checkUsernameQuery = "SELECT username FROM users WHERE username=?";
                     PreparedStatement checkUsernamePS = conn.prepareStatement(checkUsernameQuery);

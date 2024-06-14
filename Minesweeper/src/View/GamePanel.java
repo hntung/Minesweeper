@@ -70,9 +70,13 @@ public class GamePanel extends JPanel implements MouseListener{
 						}else if(world.isEnd()) {
 							getP1().getBt().setStage(ButtonSmile.win);
 							getP1().getBt().repaint();
-							int option = JOptionPane.showConfirmDialog(this, "You Win!\nDo you want play again?",
+							int option = JOptionPane.showConfirmDialog(this, "You Win!\nDo you want to save your result?",
 									"Notification",JOptionPane.YES_NO_OPTION);
 							if(option == JOptionPane.YES_OPTION) {
+								world.saveResult();
+								gameFrame.setVisible(false);
+								new GameFrame(w,h,boom);
+							}else {
 								gameFrame.setVisible(false);
 								new GameFrame(w,h,boom);
 							}

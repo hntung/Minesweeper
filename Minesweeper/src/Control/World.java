@@ -3,27 +3,22 @@ package Control;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Random;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import Config.DatabaseConfig;
 import View.ButtonPlay;
 import View.ButtonSmile;
 import View.DangNhap;
 import View.GameFrame;
 import View.GamePanel;
 import View.PanelNotification;
-import Model.CalculateCompleteTime;
+
 public class World {
-	//ConnectDB
-	String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    String dbURL = "jdbc:sqlserver://LAPTOP-VF2P0PFO\\MSSQL2022:1433;databaseName=Minesweeper;"
-            + "encrypt=false;trustServerCertificate=true;"
-            + "hostNameInCertificate=LAPTOP-VF2P0PFO\\MSSQL2022";
-    String user = "sa";
-    String pass = "123";
-    //
+	
 	private Random rd;
 	private ButtonPlay[][] arrayButton;
 	private int[][] arrayMin;
@@ -39,7 +34,7 @@ public class World {
 	private int levelID;
 	private int timeComplete;
 	private String username = DangNhap.getUsername();
-
+	private PanelNotification p1;
 	public World(int w, int h, int boom, GamePanel game) {
 		this.boom = boom;
 		this.game = game;
@@ -49,6 +44,13 @@ public class World {
 		arrayBoolean = new boolean[w][h];
 		rd = new Random();
 		createArrayMin(boom,w,h);
+		if(boom == 10) {
+			levelID = 1;
+		} else if(boom == 40) {
+			levelID = 2;
+		} else {
+			levelID = 3;
+		}
 		fillNumber();
 		System.out.println(boom);
 		for(int i = 0;i < arrayButton.length; i++){
@@ -122,39 +124,66 @@ public class World {
 			}
 		}
 		if(count == boom) {
-			timeComplete =  GameFrame.getTotalTime() ;
-			System.out.println(timeComplete);
+			timeComplete =  game.getP1().timeComplete()  ;
 			return true;
 		}else {
 			return false;
 		}
 	}
+
+	public void saveResult() {
+        try {
+        	Class.forName(DatabaseConfig.DRIVER);
+            Connection conn = DriverManager.getConnection(DatabaseConfig.DB_URL, DatabaseConfig.USER, DatabaseConfig.PASS);
+
+
+            int currentResult = timeComplete;
+            int previousResult = 0; 
+            boolean hasPreviousResult = false; 
+
+            String selectQuery = "SELECT timeComplete FROM bangxephang WHERE levelid = ? AND username = ?";
+            
+            PreparedStatement psSelect = conn.prepareStatement(selectQuery);
+            psSelect.setInt(1, levelID); 
+            psSelect.setString(2, username);
+            ResultSet rs = psSelect.executeQuery();
+
+            if (rs.next()) {
+                previousResult = rs.getInt("timeComplete");
+                hasPreviousResult = true;
+            }
+
+
+            if (!hasPreviousResult || currentResult < previousResult) {
+
+                if (hasPreviousResult) {
+                    String deleteQuery = "DELETE FROM bangxephang WHERE levelid = ? AND username = ?";
+                    PreparedStatement psDelete = conn.prepareStatement(deleteQuery);
+                    psDelete.setInt(1, levelID);
+                    psDelete.setString(2, username);
+                    psDelete.executeUpdate();
+                }
+
+
+                String insertQuery = "INSERT INTO bangxephang (levelid, username, timeComplete) VALUES (?, ?, ?)";
+                PreparedStatement psInsert = conn.prepareStatement(insertQuery);
+                psInsert.setInt(1, levelID);
+                psInsert.setString(2, username);
+                psInsert.setInt(3, currentResult);
+                psInsert.executeUpdate();
+
+                JOptionPane.showMessageDialog(null, "Lưu kết quả thành công!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Kết quả lần này không đủ tốt để lưu vào bảng xếp hạng.");
+            }
+
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Lỗi khi lưu kết quả: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 	
-//	public boolean saveResult() {
-//        try {
-//            Class.forName(driver);
-//            Connection conn = DriverManager.getConnection(dbURL, user, pass);
-//            String sql = "INSERT INTO bangxephang (levelid, username, timeComplete) VALUES (?, ?, ?)";
-//            PreparedStatement ps = conn.prepareStatement(sql);
-//            ps.setInt(1, levelID);
-//            ps.setString(2, username);
-//            ps.setInt(3, timeComplete);
-//            int rowsInserted = ps.executeUpdate();
-//            ps.close();
-//            conn.close();
-//            if (rowsInserted > 0) {
-//                JOptionPane.showMessageDialog(null, "Lưu kết quả thành công!");
-//                return true;
-//            } else {
-//                JOptionPane.showMessageDialog(null, "Không thể lưu kết quả.", "Lỗi", JOptionPane.ERROR_MESSAGE);
-//                return false;
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            JOptionPane.showMessageDialog(null, "Lỗi khi lưu kết quả: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
-//            return false;
-//        }
-//    }
 	public void fillNumber() {
 		for(int i = 0;i < arrayMin.length; i++){
 			for(int j = 0;j < arrayMin[i].length; j++){
@@ -174,8 +203,8 @@ public class World {
 				
 			}
 		}
-		
 	}
+	
 	public void createArrayMin(int boom,int w, int h) {
 		int locationX = rd.nextInt(w);
 		int locationY = rd.nextInt(h);
@@ -343,6 +372,12 @@ public class World {
 	}
 	public void setFlag(int flag) {
 		Flag = flag;
+	}
+	public PanelNotification getP1() {
+		return p1;
+	}
+	public void setP1(PanelNotification p1) {
+		this.p1 = p1;
 	}
 	
 	

@@ -10,6 +10,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import Config.DatabaseConfig;
+
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -23,14 +26,7 @@ public class DangNhap extends JFrame {
     private JTextField txtUsername;
     private JPasswordField txtPasswrod;
     private static String username;
-    // Database connection details
-    String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    String dbURL = "jdbc:sqlserver://LAPTOP-VF2P0PFO\\MSSQL2022:1433;databaseName=Minesweeper;"
-            + "encrypt=false;trustServerCertificate=true;"
-            + "hostNameInCertificate=LAPTOP-VF2P0PFO\\MSSQL2022";
-    String user = "sa";
-    String pass = "123";
-
+    
     /**
      * Launch the application.
      */
@@ -95,8 +91,8 @@ public class DangNhap extends JFrame {
         btnDangNhap.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 try {
-                    Class.forName(driver);
-                    Connection conn = DriverManager.getConnection(dbURL, user, pass);
+                	Class.forName(DatabaseConfig.DRIVER);
+                    Connection conn = DriverManager.getConnection(DatabaseConfig.DB_URL, DatabaseConfig.USER, DatabaseConfig.PASS);
                     String sql = "SELECT * FROM users WHERE username=? and password=?";
                     PreparedStatement ps = conn.prepareStatement(sql);
                     ps.setString(1, txtUsername.getText());

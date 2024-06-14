@@ -24,18 +24,6 @@ public class MainBoard extends JFrame{
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainBoard window = new MainBoard();
-					window.frmMinesweeper.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the application.
@@ -87,23 +75,29 @@ public class MainBoard extends JFrame{
 		frmMinesweeper.getContentPane().add(btnNewGame);
 		
 		JButton btnBangXepHang = new JButton("Bảng xếp hạng");
+		btnBangXepHang.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LeaderBoard ld = new LeaderBoard();
+			}
+		});
 		btnBangXepHang.setForeground(new Color(0, 0, 128));
 		btnBangXepHang.setBackground(new Color(0, 128, 128));
 		btnBangXepHang.setFont(new Font("Segoe UI", Font.BOLD, 22));
 		btnBangXepHang.setBounds(127, 298, 243, 76);
 		frmMinesweeper.getContentPane().add(btnBangXepHang);
 		
-		JButton btnThoat = new JButton("Thoát");
-		btnThoat.addActionListener(new ActionListener() {
+		JButton btnDangXuat = new JButton("Đăng xuất");
+		btnDangXuat.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				confirmExit();
+				frmMinesweeper.dispose();
+				DangNhap dn = new DangNhap();
 			}
 		});
-		btnThoat.setForeground(new Color(0, 0, 139));
-		btnThoat.setBackground(new Color(0, 128, 128));
-		btnThoat.setFont(new Font("Segoe UI", Font.BOLD, 22));
-		btnThoat.setBounds(127, 385, 243, 76);
-		frmMinesweeper.getContentPane().add(btnThoat);
+		btnDangXuat.setForeground(new Color(0, 0, 139));
+		btnDangXuat.setBackground(new Color(0, 128, 128));
+		btnDangXuat.setFont(new Font("Segoe UI", Font.BOLD, 22));
+		btnDangXuat.setBounds(127, 385, 243, 76);
+		frmMinesweeper.getContentPane().add(btnDangXuat);
 		
 		JLabel lbBackground = new JLabel("");
 		lbBackground.setIcon(new ImageIcon(MainBoard.class.getResource("/Res/background.jpeg")));

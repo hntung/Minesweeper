@@ -114,9 +114,6 @@ public class GameFrame extends JFrame {
 		setVisible(true);
 	}
 	
-	public static void main(String[] args) {
-		new GameFrame(9, 9, 10);
-	}
 
 	private void confirmExit() {
         int confirmed = JOptionPane.showConfirmDialog(
@@ -128,7 +125,6 @@ public class GameFrame extends JFrame {
 
         if (confirmed == JOptionPane.YES_OPTION) {
             dispose();
-            System.exit(confirmed);
         }
     }
 	public LoadData getLoadData() {
