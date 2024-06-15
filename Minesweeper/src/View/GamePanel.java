@@ -28,7 +28,6 @@ public class GamePanel extends JPanel implements MouseListener{
 	private  boolean isStarted;
 	private GameFrame gameFrame;
 	private World world;
-	private ScheduledExecutorService executorService;
 
 	private int w, h, boom;
 	public GamePanel(int w, int h, int boom, GameFrame gameFrame) {
@@ -108,7 +107,7 @@ public class GamePanel extends JPanel implements MouseListener{
 			}
 		}
 	}
-	
+
 
 	@Override
 	public void mouseReleased(MouseEvent e) {

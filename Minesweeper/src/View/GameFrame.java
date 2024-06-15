@@ -134,6 +134,7 @@ public class GameFrame extends JFrame {
             dispose();
         }
     }
+	
 	public LoadData getLoadData() {
 		return loadData;
 	}

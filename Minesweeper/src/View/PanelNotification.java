@@ -73,14 +73,22 @@ public class PanelNotification extends JPanel {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				if(getGame().getWorld().isEnd() || getGame().getWorld().isComplete()) {
-					getGame().getGameFrame().setVisible(false);
-					new GameFrame(game.getW(),game.getH(),game.getBoom());
-				}else {
-					bt.setStage(ButtonSmile.press);
-					bt.repaint();					
-				}
-			}
+		        if (getGame().getWorld().isEnd() || getGame().getWorld().isComplete()) {
+		            int option = JOptionPane.showConfirmDialog(null, "Bạn có muốn chơi ván mới?", "Notification",
+		                    JOptionPane.YES_NO_OPTION);
+		            if (option == JOptionPane.YES_OPTION) {
+		                stopTimer();
+		                getGame().getGameFrame().setVisible(false);
+		                new GameFrame(game.getW(), game.getH(), game.getBoom());
+		            } else {
+		                bt.setStage(ButtonSmile.now);
+		                bt.repaint();
+		            }
+		        } else {
+		            bt.setStage(ButtonSmile.now);
+		            bt.repaint();
+		        }
+		    }
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -138,7 +146,6 @@ public class PanelNotification extends JPanel {
 	            @Override
 	            public void run() {
 	                if (game.getWorld().isEnd() || game.getWorld().isComplete()) {
-
 	                	stopTimer();
 	                } else {
 	                    timeLeft--;
@@ -174,6 +181,8 @@ public class PanelNotification extends JPanel {
 	        executorService.shutdown();
 	    }
 	}
+	
+	
 	public ButtonSmile getBt() {
 		return bt;
 	}
