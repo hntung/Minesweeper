@@ -3,6 +3,8 @@ package View;
 import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -46,7 +48,7 @@ public class PanelNotification extends JPanel {
 		updateBoom();
 		
 		p12.add(lbTime = new LabelNumber(this,"000"));
-		startTimer();
+		startTimer();			
 		p13.add(bt = new ButtonSmile(this));
 		
 		bt.addMouseListener(new MouseListener(){
@@ -58,6 +60,7 @@ public class PanelNotification extends JPanel {
 				int option = JOptionPane.showConfirmDialog(null, "Bạn có muốn chơi ván mới?", "Notification"
 															,JOptionPane.YES_NO_OPTION);
 				if(option == JOptionPane.YES_OPTION) {
+					stopTimer();
 					getGame().getGameFrame().setVisible(false);
 					new GameFrame(game.getW(),game.getH(),game.getBoom());
 				}
@@ -92,6 +95,23 @@ public class PanelNotification extends JPanel {
 			}
 		});
 		
+		game.getGameFrame().addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				int confirmed = JOptionPane.showConfirmDialog(
+			            game,
+			            "Bạn có chắc chắn muốn thoát không?",
+			            "Xác nhận thoát",
+			            JOptionPane.YES_NO_OPTION
+			        );
+
+			        if (confirmed == JOptionPane.YES_OPTION) {
+			        	stopTimer();
+			            game.getGameFrame().dispose();
+			        }
+			}
+		});
+		
 	}
 	
 	public GamePanel getGame() {
@@ -119,7 +139,7 @@ public class PanelNotification extends JPanel {
 	            public void run() {
 	                if (game.getWorld().isEnd() || game.getWorld().isComplete()) {
 
-	                    executorService.shutdown();
+	                	stopTimer();
 	                } else {
 	                    timeLeft--;
 	                    String cTime = String.valueOf(timeLeft);
@@ -132,9 +152,16 @@ public class PanelNotification extends JPanel {
 	                    }
 	                    lbTime.repaint();
 	                    if (timeLeft <= 0) {
-	                        executorService.shutdown();
-	                        game.getWorld().isComplete();
-	                        JOptionPane.showMessageDialog(game, "Time's up!", "Notification", JOptionPane.INFORMATION_MESSAGE);
+	                    	stopTimer();
+	                        game.getWorld().setComplete(true);
+	                        int option = JOptionPane.showConfirmDialog(game.getGameFrame(), "Game Over!\nDo you want play again?",
+									"Notification",JOptionPane.YES_NO_OPTION);
+							if(option == JOptionPane.YES_OPTION) {
+								game.getGameFrame().setVisible(false);
+								new GameFrame(game.getW(),game.getH(),game.getBoom());
+							}else {
+								game.getWorld().fullTrue();
+							}	
 	                    }
 	                }
 	            }
@@ -142,7 +169,11 @@ public class PanelNotification extends JPanel {
 	    }, 1, 1, TimeUnit.SECONDS);
 	}
 	
-
+	public void stopTimer() {
+	    if (executorService != null && !executorService.isShutdown()) {
+	        executorService.shutdown();
+	    }
+	}
 	public ButtonSmile getBt() {
 		return bt;
 	}

@@ -160,7 +160,7 @@ public class DangKy extends JFrame {
 
         if (confirmed == JOptionPane.YES_OPTION) {
             frame.dispose();
-            System.exit(0); // Terminate the application
+            System.exit(confirmed); // Terminate the application
         }
     }
 }

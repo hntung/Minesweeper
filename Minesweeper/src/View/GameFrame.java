@@ -42,7 +42,7 @@ public class GameFrame extends JFrame {
 
 		if (boom == 10) {
 			basic.setIcon(new ImageIcon(loadData.getListImage().get("DauTich")));
-			setTotalTime(150);
+			setTotalTime(10);
 		} else if (boom == 40) {
 			nomal.setIcon(new ImageIcon(loadData.getListImage().get("DauTich")));
 			setTotalTime(400);
@@ -56,9 +56,8 @@ public class GameFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-				dispose();
-		
+				stopCurrentGame();
+				
 				new GameFrame(9, 9, 10);
 			}
 		});
@@ -67,8 +66,8 @@ public class GameFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-				dispose();
+				stopCurrentGame();
+				
 				new GameFrame(16, 16, 40);
 			}
 		});
@@ -77,8 +76,7 @@ public class GameFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-				dispose();
+				stopCurrentGame();
 				new GameFrame(16, 30, 99);
 			}
 		});
@@ -87,8 +85,7 @@ public class GameFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-				dispose();
+				stopCurrentGame();
 				new GameFrame(w, h, boom);
 			}
 		});
@@ -97,7 +94,17 @@ public class GameFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				confirmExit();
+				int confirmed = JOptionPane.showConfirmDialog(
+			            exit,
+			            "Bạn có chắc chắn muốn thoát không?",
+			            "Xác nhận thoát",
+			            JOptionPane.YES_NO_OPTION
+			        );
+
+			        if (confirmed == JOptionPane.YES_OPTION) {
+			        	stopCurrentGame();
+			            dispose();
+			        }
 			}
 		});
 		add(gamePanel = new GamePanel(w,h,boom, this));
@@ -105,16 +112,17 @@ public class GameFrame extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                confirmExit();
-            }
-        });
 		setVisible(true);
 	}
 	
-
+	private void stopCurrentGame() {
+		if (gamePanel != null) {
+			gamePanel.getP1().stopTimer();
+		}
+		setVisible(false);
+		dispose();
+	}
+	
 	private void confirmExit() {
         int confirmed = JOptionPane.showConfirmDialog(
             this,

@@ -6,11 +6,15 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.BorderFactory;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import Control.World;
 
@@ -21,10 +25,11 @@ public class GamePanel extends JPanel implements MouseListener{
 	private static final long serialVersionUID = 1L;
 	private PanelNotification p1;
 	private PanelPlayer p2;
-	
+	private  boolean isStarted;
 	private GameFrame gameFrame;
 	private World world;
-	
+	private ScheduledExecutorService executorService;
+
 	private int w, h, boom;
 	public GamePanel(int w, int h, int boom, GameFrame gameFrame) {
 		this.gameFrame = gameFrame;
@@ -55,6 +60,7 @@ public class GamePanel extends JPanel implements MouseListener{
 		for(int i = 0; i < arrayButton.length; i++) {
 			for(int j = 0; j< arrayButton[i].length; j++) {
 				if(e.getButton() == 1 && e.getSource() == arrayButton[i][j] && !world.getArrayFlag()[i][j]) {
+					setStarted(true);
 					if(!world.open(i,j)) {
 						if(world.isComplete()) {
 							getP1().getBt().setStage(ButtonSmile.lose);
@@ -83,7 +89,7 @@ public class GamePanel extends JPanel implements MouseListener{
 						}
 					}
 				} else if (e.getButton() == 3 && e.getSource() == arrayButton[i][j]) {
-					world.camCo(i, j);
+					world.camCo(i, j);			
 				}
 				if(e.getClickCount() == 2 && e.getSource() == arrayButton[i][j] && world.getArrayBoolean()[i][j]) {
 					if(!world.clickDouble(i, j)) {
@@ -169,6 +175,14 @@ public class GamePanel extends JPanel implements MouseListener{
 
 	public void setP2(PanelPlayer p2) {
 		this.p2 = p2;
+	}
+
+	public boolean isStarted() {
+		return isStarted;
+	}
+
+	public void setStarted(boolean isStarted) {
+		this.isStarted = isStarted;
 	}
 	
 	

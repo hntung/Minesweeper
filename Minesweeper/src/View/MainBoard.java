@@ -116,6 +116,7 @@ public class MainBoard extends JFrame{
         
         if (confirmed == JOptionPane.YES_OPTION) {
             frmMinesweeper.dispose();
+            System.exit(confirmed);
         }
     }
 	

@@ -138,7 +138,7 @@ public class DangNhap extends JFrame {
 
         if (confirmed == JOptionPane.YES_OPTION) {
             dispose();
-            System.exit(0);
+            System.exit(confirmed);
         }
     }
 
