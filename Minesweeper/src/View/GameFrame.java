@@ -42,7 +42,7 @@ public class GameFrame extends JFrame {
 
 		if (boom == 10) {
 			basic.setIcon(new ImageIcon(loadData.getListImage().get("DauTich")));
-			setTotalTime(10);
+			setTotalTime(150);
 		} else if (boom == 40) {
 			nomal.setIcon(new ImageIcon(loadData.getListImage().get("DauTich")));
 			setTotalTime(400);
@@ -50,7 +50,6 @@ public class GameFrame extends JFrame {
 			hard.setIcon(new ImageIcon(loadData.getListImage().get("DauTich")));
 			setTotalTime(999);
 		}
-//		totalTime = 60;
 		
 		basic.addActionListener(new ActionListener() {
 

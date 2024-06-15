@@ -18,10 +18,14 @@ import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
+import java.awt.Font;
+import java.awt.Color;
 
 public class DangKy extends JFrame {
     
-    private JFrame frame;
+    private JFrame frmngKTi;
     private JTextField txtUsername;
     private JPasswordField txtPassword;
     private JPasswordField txtConfirmPassword;
@@ -38,15 +42,17 @@ public class DangKy extends JFrame {
      * Initialize the contents of the frame.
      */
     private void initialize() {
-        frame = new JFrame();
-        frame.setResizable(false);
-        frame.setBounds(100, 100, 430, 299);
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        frame.getContentPane().setLayout(null);
-        frame.setVisible(true);
+        frmngKTi = new JFrame();
+        frmngKTi.setIconImage(Toolkit.getDefaultToolkit().getImage("D:\\Java\\Minesweeper\\Minesweeper\\src\\Res\\logo.png"));
+        frmngKTi.setTitle("Đăng ký tài khoản");
+        frmngKTi.setResizable(false);
+        frmngKTi.setBounds(100, 100, 430, 299);
+        frmngKTi.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frmngKTi.getContentPane().setLayout(null);
+        frmngKTi.setVisible(true);
 
         // Add window listener for close confirmation
-        frame.addWindowListener(new WindowAdapter() {
+        frmngKTi.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 confirmClose();
@@ -54,27 +60,37 @@ public class DangKy extends JFrame {
         });
 
         JLabel lblNewLabel = new JLabel("Nhập tài khoản:");
-        lblNewLabel.setBounds(48, 69, 105, 14);
-        frame.getContentPane().add(lblNewLabel);
+        lblNewLabel.setForeground(new Color(224, 255, 255));
+        lblNewLabel.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        lblNewLabel.setBounds(49, 69, 104, 14);
+        frmngKTi.getContentPane().add(lblNewLabel);
 
         txtUsername = new JTextField();
+        txtUsername.setFont(new Font("Segoe UI", Font.BOLD, 13));
         txtUsername.setBounds(192, 66, 180, 20);
-        frame.getContentPane().add(txtUsername);
+        frmngKTi.getContentPane().add(txtUsername);
         txtUsername.setColumns(10);
 
         JLabel lblNewLabel_1 = new JLabel("Nhập mật khẩu");
+        lblNewLabel_1.setForeground(new Color(224, 255, 255));
+        lblNewLabel_1.setFont(new Font("Segoe UI", Font.BOLD, 13));
         lblNewLabel_1.setBounds(49, 114, 104, 14);
-        frame.getContentPane().add(lblNewLabel_1);
+        frmngKTi.getContentPane().add(lblNewLabel_1);
 
         JLabel lblNewLabel_1_1 = new JLabel("Nhập lại mật khẩu:");
+        lblNewLabel_1_1.setForeground(new Color(224, 255, 255));
+        lblNewLabel_1_1.setFont(new Font("Segoe UI", Font.BOLD, 13));
         lblNewLabel_1_1.setBounds(48, 151, 122, 14);
-        frame.getContentPane().add(lblNewLabel_1_1);
+        frmngKTi.getContentPane().add(lblNewLabel_1_1);
 
         JButton btnDangKy = new JButton("Đăng ký");
+        btnDangKy.setForeground(new Color(0, 128, 0));
+        btnDangKy.setBackground(new Color(192, 192, 192));
+        btnDangKy.setFont(new Font("Segoe UI", Font.BOLD, 13));
         btnDangKy.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int confirmed = JOptionPane.showConfirmDialog(
-                        frame,
+                        frmngKTi,
                         "Bạn có chắc chắn muốn đăng ký?",
                         "Xác nhận",
                         JOptionPane.YES_NO_OPTION
@@ -91,7 +107,7 @@ public class DangKy extends JFrame {
                     checkUsernamePS.setString(1, txtUsername.getText());
                     ResultSet rs = checkUsernamePS.executeQuery();
                     if (rs.next()) {
-                        JOptionPane.showMessageDialog(frame, "Tên đăng nhập đã tồn tại");
+                        JOptionPane.showMessageDialog(frmngKTi, "Tên đăng nhập đã tồn tại");
                         return;
                     }
 
@@ -102,19 +118,19 @@ public class DangKy extends JFrame {
 
                     String confirmPassword = txtConfirmPassword.getText();
                     if (!txtPassword.getText().equals(confirmPassword)) {
-                        JOptionPane.showMessageDialog(frame, "Mật khẩu và xác nhận mật khẩu phải giống nhau");
+                        JOptionPane.showMessageDialog(frmngKTi, "Mật khẩu và xác nhận mật khẩu phải giống nhau");
                         return;
                     }
 
                     int n = insertUserPS.executeUpdate();
 
                     if (txtUsername.getText().isEmpty() || txtPassword.getText().isEmpty()) {
-                        JOptionPane.showMessageDialog(frame, "Không để thông tin trống");
+                        JOptionPane.showMessageDialog(frmngKTi, "Không để thông tin trống");
                     } else if (n != 0) {
-                        JOptionPane.showMessageDialog(frame, "Đăng ký thành công");
+                        JOptionPane.showMessageDialog(frmngKTi, "Đăng ký thành công");
                         clearForm();
                     } else {
-                        JOptionPane.showMessageDialog(frame, "Đăng ký không thành công");
+                        JOptionPane.showMessageDialog(frmngKTi, "Đăng ký không thành công");
                     }
                 } catch (Exception e2) {
                     e2.printStackTrace();
@@ -122,26 +138,44 @@ public class DangKy extends JFrame {
             }
         });
         btnDangKy.setBounds(48, 186, 105, 34);
-        frame.getContentPane().add(btnDangKy);
+        frmngKTi.getContentPane().add(btnDangKy);
 
         JButton btnDangNhap = new JButton("Về đăng nhập");
+        btnDangNhap.setForeground(new Color(0, 128, 0));
+        btnDangNhap.setBackground(new Color(192, 192, 192));
+        btnDangNhap.setFont(new Font("Segoe UI", Font.BOLD, 13));
         btnDangNhap.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 DangNhap dangNhapForm = new DangNhap();
 //                dangNhapForm.setVisible(true);
-                frame.dispose();
+                frmngKTi.dispose();
             }
         });
         btnDangNhap.setBounds(238, 186, 133, 34);
-        frame.getContentPane().add(btnDangNhap);
+        frmngKTi.getContentPane().add(btnDangNhap);
 
         txtPassword = new JPasswordField();
+        txtPassword.setFont(new Font("Segoe UI", Font.BOLD, 13));
         txtPassword.setBounds(192, 111, 180, 20);
-        frame.getContentPane().add(txtPassword);
+        frmngKTi.getContentPane().add(txtPassword);
 
         txtConfirmPassword = new JPasswordField();
+        txtConfirmPassword.setFont(new Font("Segoe UI", Font.BOLD, 13));
         txtConfirmPassword.setBounds(192, 145, 180, 20);
-        frame.getContentPane().add(txtConfirmPassword);
+        frmngKTi.getContentPane().add(txtConfirmPassword);
+        
+        JLabel lblNewLabel_2 = new JLabel("ĐĂNG KÝ TÀI KHOẢN");
+        lblNewLabel_2.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        lblNewLabel_2.setForeground(new Color(224, 255, 255));
+        lblNewLabel_2.setBounds(123, 0, 207, 49);
+        frmngKTi.getContentPane().add(lblNewLabel_2);
+        
+        JLabel lblNewLabel_3 = new JLabel("");
+        lblNewLabel_3.setIcon(new ImageIcon("D:\\Java\\Minesweeper\\Minesweeper\\src\\Res\\loginbg.jpg"));
+        lblNewLabel_3.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        lblNewLabel_3.setForeground(new Color(224, 255, 255));
+        lblNewLabel_3.setBounds(0, 0, 416, 262);
+        frmngKTi.getContentPane().add(lblNewLabel_3);
     }
 
     private void clearForm() {
@@ -159,7 +193,7 @@ public class DangKy extends JFrame {
         );
 
         if (confirmed == JOptionPane.YES_OPTION) {
-            frame.dispose();
+            frmngKTi.dispose();
             System.exit(confirmed); // Terminate the application
         }
     }
