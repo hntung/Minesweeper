@@ -65,7 +65,7 @@ public class LeaderBoard extends JFrame {
         leaderboardTable.setFont(new Font("Arial", Font.PLAIN, 14));
         leaderboardTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
         leaderboardTable.setRowHeight(30);
-
+        leaderboardTable.setEnabled(false);
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
         leaderboardTable.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
