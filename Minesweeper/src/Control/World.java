@@ -124,7 +124,7 @@ public class World {
 			}
 		}
 		if(count == boom) {
-			timeComplete =  game.getP1().timeComplete()  ;
+			timeComplete =  game.getP1().timeComplete() ;
 			return true;
 		}else {
 			return false;

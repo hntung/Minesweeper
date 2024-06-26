@@ -34,7 +34,7 @@ public class PanelNotification extends JPanel {
 		this.totalTime = game.getGameFrame().getTotalTime();
 		this.timeLeft = this.totalTime;
 		lbTime = game.getWorld().getLbTime();
-		lbBoom = game.getWorld().getLbTime();
+		lbBoom = game.getWorld().getLbBoom();
 		bt = game.getWorld().getButtonSmile();
 		setLayout(new BorderLayout());
 		
@@ -54,26 +54,7 @@ public class PanelNotification extends JPanel {
 		bt.addMouseListener(new MouseListener(){
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				bt.setStage(ButtonSmile.now);
-				bt.repaint();
-				
-				int option = JOptionPane.showConfirmDialog(null, "Bạn có muốn chơi ván mới?", "Notification"
-															,JOptionPane.YES_NO_OPTION);
-				if(option == JOptionPane.YES_OPTION) {
-					stopTimer();
-					getGame().getGameFrame().setVisible(false);
-					new GameFrame(game.getW(),game.getH(),game.getBoom());
-				}
-			}
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-		        if (getGame().getWorld().isEnd() || getGame().getWorld().isComplete()) {
+				if (getGame().getWorld().isEnd() || getGame().getWorld().isComplete()) {
 		            int option = JOptionPane.showConfirmDialog(null, "Bạn có muốn chơi ván mới?", "Notification",
 		                    JOptionPane.YES_NO_OPTION);
 		            if (option == JOptionPane.YES_OPTION) {
@@ -87,7 +68,23 @@ public class PanelNotification extends JPanel {
 		        } else {
 		            bt.setStage(ButtonSmile.now);
 		            bt.repaint();
+		            int option = JOptionPane.showConfirmDialog(null, "Bạn có muốn chơi ván mới?", "Notification",
+		                    JOptionPane.YES_NO_OPTION);
+		            if (option == JOptionPane.YES_OPTION) {
+		                stopTimer();
+		                getGame().getGameFrame().setVisible(false);
+		                new GameFrame(game.getW(), game.getH(), game.getBoom());
+		            }
 		        }
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
 		    }
 
 			@Override
@@ -161,7 +158,7 @@ public class PanelNotification extends JPanel {
 	                    if (timeLeft <= 0) {
 	                    	stopTimer();
 	                        game.getWorld().setComplete(true);
-	                        int option = JOptionPane.showConfirmDialog(game.getGameFrame(), "Game Over!\nDo you want play again?",
+	                        int option = JOptionPane.showConfirmDialog(game.getGameFrame(), "Time Up!\nDo you want play again?",
 									"Notification",JOptionPane.YES_NO_OPTION);
 							if(option == JOptionPane.YES_OPTION) {
 								game.getGameFrame().setVisible(false);
